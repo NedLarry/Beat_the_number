@@ -24,12 +24,22 @@ namespace Beat_The_Number.Pages
         private async void startNewBtnClicked (object sender, EventArgs e)
         {
             
+            
             await Navigation.PushAsync(new GamePage());
-            Navigation.RemovePage(this);
+
+            //var thisPage = this;
+            //Navigation.RemovePage(thisPage);
         }
         private async void mainPageBtnClicked (object sender, EventArgs e)
         {
+
             await Navigation.PopToRootAsync();
+
+            //var thisPage = this;
+
+
+            //Navigation.RemovePage(thisPage);
+
         }
 
         protected override bool OnBackButtonPressed()

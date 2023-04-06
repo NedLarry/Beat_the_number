@@ -27,13 +27,15 @@ namespace Beat_The_Number.Pages
             GameNumbers = InitializeAndRandomizeGameNumbers();
 
             TARGET_VALUE = (int)GameNumbers.Average();
+            targetValueLbl.Text = ((int)GameNumbers.Average()).ToString();
+
 
             GameLayout.RowSpacing = 10;
             GameLayout.ColumnSpacing = 10;
 
             guessesLbl.Text = NUMBER_OF_GUESSES.ToString();
             //targetValueLbl.Text = GameNumbers.Sum().ToString();
-            targetValueLbl.Text = ((int)GameNumbers.Average()).ToString();
+
             playerValueLbl.Text = RandomizePlayerValue();
 
 
@@ -49,12 +51,13 @@ namespace Beat_The_Number.Pages
 
             int upperBound = new Random().Next(40);
 
-            while (numbersToReturn.Count != ARRAY_SIZE)
+            while (numbersToReturn.Count <= ARRAY_SIZE)
             {
-                int numberToAdd = new Random().Next(upperBound);
+                NUMBER_GENERATOR:
+                    int numberToAdd = new Random().Next(upperBound);
                 //int numberToAdd = new Random().Next(new Random().Next(10), new Random().Next(10));
 
-                if (numberToAdd == 0) continue;
+                if (numberToAdd < 4) goto NUMBER_GENERATOR;
 
                 if (!numbersToReturn.Contains(numberToAdd))
                 {
@@ -68,22 +71,20 @@ namespace Beat_The_Number.Pages
         string RandomizePlayerValue()
         {
         
+            int randomValue = GameNumbers[new Random().Next(ARRAY_SIZE)];
 
-            int randomValue = GameNumbers.Sum();
+            if (randomValue < 4)
+                return RandomizePlayerValue();
 
-            while (randomValue > TARGET_VALUE)
-            {
-                 randomValue = GameNumbers[new Random().Next(ARRAY_SIZE)];
+            else if (randomValue == TARGET_VALUE)
+                return RandomizePlayerValue();
 
-                if (randomValue == 0 || randomValue <= 4) continue;
-
-                if (randomValue == TARGET_VALUE) continue;
-
-                if (randomValue < TARGET_VALUE ) break;
-
-            }
+            else if (randomValue > TARGET_VALUE)
+                return RandomizePlayerValue();
 
             return randomValue.ToString();
+
+
         }
 
         private async Task UpdateGameStatus(int index, Button clickedButton)
@@ -99,7 +100,12 @@ namespace Beat_The_Number.Pages
             {
                 if (index == playerValue)
                 {
+
+                    clickedButton.BackgroundColor = Color.FromHex("646E78");
+                    clickedButton.TextColor = Color.White;
                     NUMBER_OF_GUESSES += 1;
+                    guessesLbl.Text = NUMBER_OF_GUESSES.ToString();
+
                 }
 
                 else if (index > playerValue)
@@ -124,8 +130,13 @@ namespace Beat_The_Number.Pages
                             $"Target value: {TARGET_VALUE}\r\n" +
                             $"Your Value: {newPlayerValue}";
 
+                        var thisPage = this;
+
+                        if (GameNumbers.Any())
+                            GameNumbers.Clear();
+
                         await Navigation.PushAsync(new WinLosePage(WIN_STATEMENT));
-                        Navigation.RemovePage(this);
+                        Navigation.RemovePage(thisPage);
 
                     }
 
@@ -136,8 +147,13 @@ namespace Beat_The_Number.Pages
             }
             else
             {
+                var thisPage = this;
+
+                if (GameNumbers.Any())
+                    GameNumbers.Clear();
+
                 await Navigation.PushAsync(new WinLosePage(OUT_OF_GUESSESS));
-                Navigation.RemovePage(this);
+                Navigation.RemovePage(thisPage);
 
             }
 
@@ -243,13 +259,30 @@ namespace Beat_The_Number.Pages
 
         private async void ReloadBtnClicked (object sender, EventArgs e)
         {
+            var thisPage = this;
+
+            if (GameNumbers.Any())
+                GameNumbers.Clear();
+
             await Navigation.PushAsync(new GamePage());
-            Navigation.RemovePage(this);
+
+            Navigation.RemovePage(thisPage);
+
 
         }
 
 
-        private async void MainPageBtnClicked(object sender, EventArgs e) => await Navigation.PopToRootAsync();
+        private async void MainPageBtnClicked(object sender, EventArgs e)
+        {
+
+            var thisPage = this;
+
+            if (GameNumbers.Any())
+                GameNumbers.Clear();
+
+            await Navigation.PopToRootAsync();
+            Navigation.RemovePage(thisPage);
+        }
 
         protected override bool OnBackButtonPressed()
         {
