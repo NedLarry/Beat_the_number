@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Beat_The_Number.Pages.WinLosePage"
+             NavigationPage.HasBackButton="False">
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="layoutStyle" TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="#03012C"/>
+            </Style>
+
+            <Style x:Key="btnStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#264653"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontFamily" Value="Roboto"/>
+                <Setter Property="FontSize" Value="20"/>
+
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout 
+        Padding="10"
+        Style="{StaticResource layoutStyle}">
+        <Label 
+            VerticalOptions="CenterAndExpand" 
+            HorizontalOptions="CenterAndExpand" 
+            x:Name="winLoseLbl"
+            FontSize="20"
+            FontFamily="Roboto"
+            TextColor="White"
+            Margin="0, 210, 0, 0"/>
+
+        <StackLayout
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="EndAndExpand">
+            
+            <Button x:Name="startNewBtn"
+                Clicked="startNewBtnClicked"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"
+                Text="Start New"
+                Style="{StaticResource btnStyle}"/>
+
+            <Button x:Name="mainPageBtn"
+                Clicked="mainPageBtnClicked"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="CenterAndExpand"
+                Text="Main Page"
+                Style="{StaticResource btnStyle}"/>
+            
+        </StackLayout>
+
+        
+
+    </StackLayout>
+</ContentPage>

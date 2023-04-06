@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Beat_The_Number.MainPage">
+
+    <StackLayout
+        BackgroundColor="#03012C"
+        Padding="10">
+
+        <Label 
+            Text="BEAT THE NUMBER" 
+            HorizontalTextAlignment="Center" 
+            TextColor="White" 
+            FontSize="24"
+            FontFamily="Roboto"/>
+
+
+        <Label 
+                x:Name="introLbl"
+                HorizontalTextAlignment="Center" 
+                TextColor="White" 
+                FontSize="20" 
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"
+                FontFamily="Roboto"/>
+
+        <Button 
+            x:Name="enterBtn"
+            BackgroundColor="#264653"
+            Text="Begin"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="EndAndExpand"
+            Clicked="enterBtnClicked"
+            TextColor="White"
+            FontFamily="Roboto"
+            FontSize="15"/>
+
+    </StackLayout>
+
+</ContentPage>

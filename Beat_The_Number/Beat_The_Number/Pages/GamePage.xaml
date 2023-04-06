@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Beat_The_Number.Pages.GamePage"
+             NavigationPage.HasBackButton="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="layoutStyle" TargetType="StackLayout">
+                <Setter Property="BackgroundColor" Value="#03012C"/>
+            </Style>
+
+            <Style x:Key="btnStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#264653"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontFamily" Value="Roboto"/>
+                <Setter Property="FontSize" Value="15"/>
+                
+            </Style>
+
+            <Style x:Key="gridBtnStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#1B1B1E"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontFamily" Value="Roboto"/>
+                <Setter Property="FontSize" Value="17"/>
+            </Style>
+
+            <Style x:Key="labelStyle" TargetType="Label">
+                <Setter Property="FontFamily" Value="Roboto"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontSize" Value="20"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout 
+        Padding="10"
+        x:Name="RootLayout"
+        Style="{StaticResource layoutStyle}">
+
+        <StackLayout
+            Padding="10"
+            x:Name="gameStatsLayout"
+            Margin="0, 4, 0, 4"
+            >
+
+            <StackLayout
+                Orientation="Horizontal"
+                Padding="4">
+                <Label Text="Player Value: "
+                       Style="{StaticResource labelStyle}"/>
+                <Label x:Name="playerValueLbl"
+                       Style="{StaticResource labelStyle}"/>
+            </StackLayout>
+
+            <StackLayout
+                Orientation="Horizontal"
+                Padding="4">
+                <Label Text="Target Value: "
+                       Style="{StaticResource labelStyle}"/>
+                <Label x:Name="targetValueLbl"
+                       Style="{StaticResource labelStyle}"/>
+            </StackLayout>
+
+            <StackLayout
+                Padding="4"
+                Orientation="Horizontal">
+                <Label Text="Guesses Remaining: "
+                       Style="{StaticResource labelStyle}"/>
+                <Label x:Name="guessesLbl"
+                       Style="{StaticResource labelStyle}"/>
+            </StackLayout>
+
+
+
+        </StackLayout>
+
+        <Grid
+            x:Name="GameLayout"
+            Padding="10"
+            Margin="0, 8, 0, 8"
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="CenterAndExpand">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+
+            <Button 
+                Grid.Row="0"
+                Grid.Column="0"
+                Text="0"
+                FontSize="20"
+                x:Name="btnR0C0"
+                Clicked="btnR0C0Clicked"
+                Style="{StaticResource gridBtnStyle}"/>
+
+            <Button 
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="1"
+                FontSize="20"
+                x:Name="btnR0C1"
+                Clicked="btnR0C1Clicked"
+                Style="{StaticResource gridBtnStyle}"/>
+
+            <Button 
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="2"
+                FontSize="20"
+                x:Name="btnR0C2"
+                Clicked="btnR0C2Clicked"
+                Style="{StaticResource gridBtnStyle}"/>
+
+            <Button 
+                Grid.Row="1"
+                Grid.Column="0"
+                Text="3"
+                FontSize="20"
+                x:Name="btnR1C0"
+                Clicked="btnR1C0Clicked"
+                Style="{StaticResource gridBtnStyle}"/>
+
+            <Button 
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="4"
+                FontSize="20"
+                x:Name="btnR1C1"
+                Clicked="btnR1C1Clicked"
+                Style="{StaticResource gridBtnStyle}"/>
+
+            <Button 
+                Grid.Row="1"
+                Grid.Column="2"
+                Text="5"
+                FontSize="20"
+                x:Name="btnR1C2"
+                Clicked="btnR1C2Clicked"
+                Style="{StaticResource gridBtnStyle}"/>
+
+            <Button 
+                Grid.Row="2"
+                Grid.Column="0"
+                Text="6"
+                FontSize="20"
+                x:Name="btnR2C0"
+                Clicked="btnR2C0Clicked"
+                Style="{StaticResource gridBtnStyle}"/>
+
+            <Button 
+                Grid.Row="2"
+                Grid.Column="1"
+                Text="7"
+                FontSize="20"
+                x:Name="btnR2C1"
+                Clicked="btnR2C1Clicked"
+                Style="{StaticResource gridBtnStyle}"/>
+
+            <Button 
+                Grid.Row="2"
+                Grid.Column="2"
+                Text="8"
+                FontSize="20"
+                x:Name="btnR2C2"
+                Clicked="btnR2C2Clicked"
+                Style="{StaticResource gridBtnStyle}"/>
+
+
+
+        </Grid>
+
+
+        <StackLayout
+            Padding="2"
+            x:Name="controlsLayout"
+            Orientation="Horizontal"
+            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="EndAndExpand">
+
+            <Button 
+                Text="Reload"
+                Margin="0, 0, 4, 0"
+                x:Name="reloadBtn"
+                Clicked="ReloadBtnClicked"
+                HorizontalOptions="Start"
+                VerticalOptions="CenterAndExpand"
+                Style="{StaticResource btnStyle}"/>
+
+            <Button
+                Text="Main Page"
+                Margin="4, 0, 0,0"
+                x:Name="mainPageBtn"
+                Clicked="MainPageBtnClicked"
+                HorizontalOptions="End"
+                VerticalOptions="CenterAndExpand"
+                Style="{StaticResource btnStyle}"/>
+            
+        </StackLayout>
+
+
+
+    </StackLayout>
+</ContentPage>
