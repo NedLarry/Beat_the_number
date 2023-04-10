@@ -15,8 +15,14 @@ namespace Beat_The_Number.Pages
     {
 
         const int ARRAY_SIZE = 9;
+
         readonly int TARGET_VALUE;
+
         int NUMBER_OF_GUESSES = 3;
+
+        int UPPERBOUND = 50;
+
+        int LOWERBOUND = 10;
 
         List<int> GameNumbers = new List<int>();
 
@@ -26,38 +32,52 @@ namespace Beat_The_Number.Pages
 
             GameNumbers = InitializeAndRandomizeGameNumbers();
 
-            TARGET_VALUE = (int)GameNumbers.Average();
-            targetValueLbl.Text = ((int)GameNumbers.Average()).ToString();
+            TARGET_VALUE = GameNumbers[new Random().Next(ARRAY_SIZE)];
 
+            targetValueLbl.Text = TARGET_VALUE.ToString();
 
             GameLayout.RowSpacing = 10;
             GameLayout.ColumnSpacing = 10;
 
             guessesLbl.Text = NUMBER_OF_GUESSES.ToString();
-            //targetValueLbl.Text = GameNumbers.Sum().ToString();
 
             playerValueLbl.Text = RandomizePlayerValue();
 
 
         }
 
+        //Button methods
+        private async void btnR0C0Clicked (object sender, EventArgs e) => await HandleClickedButton(sender);
 
+        private async void btnR0C1Clicked(object sender, EventArgs e)=> await HandleClickedButton(sender);
+
+        private async void btnR0C2Clicked(object sender, EventArgs e) => await HandleClickedButton(sender);
+
+        private async void btnR1C0Clicked(object sender, EventArgs e) => await HandleClickedButton(sender);
+
+        private async void btnR1C1Clicked(object sender, EventArgs e) => await HandleClickedButton(sender);
+
+        private async void btnR1C2Clicked(object sender, EventArgs e) => await HandleClickedButton(sender);
+
+        private async void btnR2C0Clicked(object sender, EventArgs e) => await HandleClickedButton(sender);
+
+        private async void btnR2C1Clicked(object sender, EventArgs e) => await HandleClickedButton(sender);
+
+        private async void btnR2C2Clicked(object sender, EventArgs e) => await HandleClickedButton(sender);
+
+
+        //Helper methods
         List<int> InitializeAndRandomizeGameNumbers()
         {
-            if(GameNumbers.Any())
-                GameNumbers.Clear();    
 
             List<int> numbersToReturn = new List<int>();
 
-            int upperBound = new Random().Next(40);
-
-            while (numbersToReturn.Count <= ARRAY_SIZE)
+            while (numbersToReturn.Count < ARRAY_SIZE)
             {
                 NUMBER_GENERATOR:
-                    int numberToAdd = new Random().Next(upperBound);
-                //int numberToAdd = new Random().Next(new Random().Next(10), new Random().Next(10));
+                int numberToAdd = new Random().Next(LOWERBOUND, UPPERBOUND);
 
-                if (numberToAdd < 4) goto NUMBER_GENERATOR;
+                if (numberToAdd == LOWERBOUND) goto NUMBER_GENERATOR;
 
                 if (!numbersToReturn.Contains(numberToAdd))
                 {
@@ -68,19 +88,17 @@ namespace Beat_The_Number.Pages
             return numbersToReturn;
         }
 
+
         string RandomizePlayerValue()
         {
-        
+
+            NUMBER_GENERATOR:
             int randomValue = GameNumbers[new Random().Next(ARRAY_SIZE)];
 
-            if (randomValue < 4)
-                return RandomizePlayerValue();
 
-            else if (randomValue == TARGET_VALUE)
-                return RandomizePlayerValue();
+            if (randomValue == TARGET_VALUE) goto NUMBER_GENERATOR;
 
-            else if (randomValue > TARGET_VALUE)
-                return RandomizePlayerValue();
+            else if (randomValue > TARGET_VALUE) goto NUMBER_GENERATOR;
 
             return randomValue.ToString();
 
@@ -130,13 +148,7 @@ namespace Beat_The_Number.Pages
                             $"Target value: {TARGET_VALUE}\r\n" +
                             $"Your Value: {newPlayerValue}";
 
-                        var thisPage = this;
-
-                        if (GameNumbers.Any())
-                            GameNumbers.Clear();
-
-                        await Navigation.PushAsync(new WinLosePage(WIN_STATEMENT));
-                        Navigation.RemovePage(thisPage);
+                        await MoveToNexPage(this, new WinLosePage(WIN_STATEMENT));
 
                     }
 
@@ -147,146 +159,45 @@ namespace Beat_The_Number.Pages
             }
             else
             {
-                var thisPage = this;
-
-                if (GameNumbers.Any())
-                    GameNumbers.Clear();
-
-                await Navigation.PushAsync(new WinLosePage(OUT_OF_GUESSESS));
-                Navigation.RemovePage(thisPage);
+                await MoveToNexPage(this, new WinLosePage(OUT_OF_GUESSESS));
 
             }
 
             clickedButton.IsEnabled = false;
         }
 
-
-        private async void btnR0C0Clicked (object sender, EventArgs e)
-        {
-
-            Button btnObject = (Button)sender;
-
-            int newNumber = GameNumbers[int.Parse(btnObject.Text)];
-
-            await UpdateGameStatus(newNumber, btnR0C0);
-
-        }
-
-        private async void btnR0C1Clicked(object sender, EventArgs e)
-        {
-
-            Button btnObject = (Button)sender;
-
-            int newNumber = GameNumbers[int.Parse(btnObject.Text)];
-
-            await UpdateGameStatus(newNumber, btnR0C1);
-
-        }
-
-        private async void btnR0C2Clicked(object sender, EventArgs e)
-        {
-
-            Button btnObject = (Button)sender;
-            int newNumber = GameNumbers[int.Parse(btnObject.Text)];
-
-            await UpdateGameStatus(newNumber, btnR0C2);
-
-        }
-
-        private async void btnR1C0Clicked(object sender, EventArgs e)
-        {
-
-            Button btnObject = (Button)sender;
-            int newNumber = GameNumbers[int.Parse(btnObject.Text)];
-
-            await UpdateGameStatus(newNumber, btnR1C0);
-
-        }
-
-        private async void btnR1C1Clicked(object sender, EventArgs e)
-        {
-
-            Button btnObject = (Button)sender;
-            int newNumber = GameNumbers[int.Parse(btnObject.Text)];
-
-            btnR1C1.Text = newNumber.ToString();
-
-            await UpdateGameStatus(newNumber, btnR1C1);
-
-        }
-
-        private async void btnR1C2Clicked(object sender, EventArgs e)
-        {
-
-            Button btnObject = (Button)sender;
-            int newNumber = GameNumbers[int.Parse(btnObject.Text)];
-
-            await UpdateGameStatus(newNumber, btnR1C2);
-
-        }
-
-        private async void btnR2C0Clicked(object sender, EventArgs e)
-        {
+        private async void ReloadBtnClicked (object sender, EventArgs e) => await MoveToNexPage(this, new GamePage());
 
 
-            Button btnObject = (Button)sender;
-            int newNumber = GameNumbers[int.Parse(btnObject.Text)];
-
-            await UpdateGameStatus(newNumber, btnR2C0);
-
-        }
-
-        private async void btnR2C1Clicked(object sender, EventArgs e)
-        {
-
-            Button btnObject = (Button)sender;
-            int newNumber = GameNumbers[int.Parse(btnObject.Text)];
-
-            await UpdateGameStatus(newNumber, btnR2C1);
-
-        }
-
-        private async void btnR2C2Clicked(object sender, EventArgs e)
-        {
-
-            Button btnObject = (Button)sender;
-            int newNumber = GameNumbers[int.Parse(btnObject.Text)];
-
-            await UpdateGameStatus(newNumber, btnR2C2);
-
-
-        }
-
-        private async void ReloadBtnClicked (object sender, EventArgs e)
-        {
-            var thisPage = this;
-
-            if (GameNumbers.Any())
-                GameNumbers.Clear();
-
-            await Navigation.PushAsync(new GamePage());
-
-            Navigation.RemovePage(thisPage);
-
-
-        }
-
-
-        private async void MainPageBtnClicked(object sender, EventArgs e)
-        {
-
-            var thisPage = this;
-
-            if (GameNumbers.Any())
-                GameNumbers.Clear();
-
-            await Navigation.PopToRootAsync();
-            Navigation.RemovePage(thisPage);
-        }
+        private async void MainPageBtnClicked(object sender, EventArgs e) => await MoveToNexPage(this, null);
 
         protected override bool OnBackButtonPressed()
         {
             return true;
+        }
+
+        private async Task MoveToNexPage(Page currentPage, Page nextPage = null)
+        {
+
+            if (nextPage == null)
+            {
+                await Navigation.PopToRootAsync();
+                return;
+            }
+
+            await Navigation.PushAsync(nextPage);
+
+            await Task.Run(() => Navigation.RemovePage(currentPage));
+        }
+
+        private async Task HandleClickedButton(object sender)
+        {
+
+            Button btnObject = sender as Button;
+
+            int newNumber = GameNumbers[int.Parse(btnObject.Text)];
+
+            await UpdateGameStatus(newNumber, btnObject);
         }
     }
 }

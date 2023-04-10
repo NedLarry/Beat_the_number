@@ -21,30 +21,27 @@ namespace Beat_The_Number.Pages
             winLoseLbl.Text = winLoseStatement;
         }
 
-        private async void startNewBtnClicked (object sender, EventArgs e)
-        {
-            
-            
-            await Navigation.PushAsync(new GamePage());
+        private async void startNewBtnClicked (object sender, EventArgs e) => await MoveToNexPage(this, new GamePage());
 
-            //var thisPage = this;
-            //Navigation.RemovePage(thisPage);
-        }
-        private async void mainPageBtnClicked (object sender, EventArgs e)
-        {
-
-            await Navigation.PopToRootAsync();
-
-            //var thisPage = this;
-
-
-            //Navigation.RemovePage(thisPage);
-
-        }
+        private async void mainPageBtnClicked(object sender, EventArgs e) => await MoveToNexPage(this, null);
 
         protected override bool OnBackButtonPressed()
         {
             return true;
+        }
+
+        private async Task MoveToNexPage(Page currentPage, Page nextPage = null)
+        {
+
+            if (nextPage == null)
+            {
+                await Navigation.PopToRootAsync();
+                return;
+            }
+
+            await Navigation.PushAsync(nextPage);
+
+            await Task.Run(() => Navigation.RemovePage(currentPage));
         }
     }
 }
